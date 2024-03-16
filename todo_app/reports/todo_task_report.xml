@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="todo_task_report" model="ir.actions.report">
+        <field name="name">Task Report</field>
+        <field name="model">todo.task</field>
+        <field name="report_type">qweb-html</field>
+        <field name="binding_model_id" ref="model_todo_task"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">todo_app.todo_task_report_template</field>
+    </record>
+        <template id="todo_task_report_template">
+            <t t-call="web.html_container">
+                <style>
+                    @media print{
+                        @page{size:auto;}
+                    }
+                    dd{
+                     font-size:22px;
+                     text-align:left;
+                    }
+                    dt{
+                      font-size:30px;
+                    }
+                    th{
+                     font-size:22px;
+                    }
+                    td{
+                     font-size:18px;
+                    }
+                    #hour{
+                      font-size:22px;
+                       color:green;
+
+                    }
+
+
+                </style>
+                   <t t-call="web.external_layout">
+                       <t t-foreach="docs" t-as="o">
+                           <div class="container page">
+<!--                               <dl class="dl-horizontal row">-->
+<!--                                   <dt class="col-3">TASK :</dt>-->
+<!--                                   <dd class="col-9">-->
+<!--                                       <t t-esc="o.name"/>-->
+<!--                                   </dd>-->
+<!--                                   <dt class="col-3">Due Date :</dt>-->
+<!--                                   <dd class="col-9">-->
+<!--                                       <t t-esc="o.due_date"/>-->
+<!--                                   </dd>-->
+<!--                                   <dt class="col-3">Assign to :</dt>-->
+<!--                                   <dd class="col-9">-->
+<!--                                       <t t-esc="o.assign_to_id.name"/>-->
+<!--                                   </dd>-->
+<!--                                   <dt class="col-3">Estimated Time :</dt>-->
+<!--                                   <dd class="col-9">-->
+<!--                                       <t t-esc="o.estimated_time"/><span id="hour"> H </span>-->
+<!--                                   </dd>-->
+<!--                                   <dt class="col-3">Description :</dt>-->
+<!--                                   <dd class="col-9">-->
+<!--                                       <t t-esc="o.description"/>-->
+<!--                                   </dd>-->
+<!--                               </dl>-->
+                               <table class="table table-borderless" style="text-align:left;">
+                               <tr>
+                                   <th>TASK :</th>
+                                   <td> <t t-esc="o.name"/></td>
+                               </tr>
+                               <tr>
+                                   <th>Due Date :</th>
+                                   <td> <t t-esc="o.due_date"/></td>
+                               </tr>
+                               <tr>
+                                   <th>Assign to :</th>
+                                   <td> <t t-esc="o.assign_to_id.name"/></td>
+                               </tr>
+                               <tr>
+                                   <th>Estimated Time :</th>
+                                   <td> <t t-esc="o.estimated_time"/><span style="color:red"> Hours</span></td>
+                               </tr>
+                               <tr>
+                                   <th>Description :</th>
+                                   <td> <t t-esc="o.description"/></td>
+                               </tr>
+
+                           </table>
+
+
+                               <table class="table table-bordered border-primary" style="text-align:center;">
+                                   <thead>
+                                       <tr><th colspan="4">Timesheet</th></tr>
+                                       <tr>
+                                           <th style="column-width:10px;">#</th>
+                                           <th scope="col">Date</th>
+                                           <th scope="col">Description</th>
+                                           <th scope="col">Time</th>
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                       <t t-set="i" t-value="1"/>
+                                       <t t-foreach="o.line_ids" t-as="line">
+                                           <tr>
+                                               <th scope="row"><t t-esc="i"/></th>
+                                               <td>
+                                                   <t t-esc="line.task_date"/>
+                                               </td>
+                                               <td>
+                                                   <t t-esc="line.description"/>
+                                               </td>
+                                               <td>
+                                                   <t t-esc="line.times"/><span style="color:red"> H</span>
+                                               </td>
+                                           </tr>
+                                           <t t-set="i" t-value="i+1"/>
+                                       </t>
+                                       <tr>
+                                           <th colspan="3">Total Time </th>
+                                           <td scope="row">
+                                               <t t-esc="o.total_hours"/><span style="color:red"> H</span>
+                                           </td>
+                                       </tr>
+
+                                   </tbody>
+                               </table>
+
+
+                           </div>
+
+
+<!--                           <table>-->
+<!--                               <tr>-->
+<!--                                   <th>TASK :</th>-->
+<!--                                   <td> <t t-esc="o.name"/></td>-->
+<!--                               </tr>-->
+<!--                               <tr>-->
+<!--                                   <th>Due Date :</th>-->
+<!--                                   <td> <t t-esc="o.due_date"/></td>-->
+<!--                               </tr>-->
+<!--                               <tr>-->
+<!--                                   <th>Assign to :</th>-->
+<!--                                   <td> <t t-esc="o.assign_to_id.name"/></td>-->
+<!--                               </tr>-->
+<!--                               <tr>-->
+<!--                                   <th>Estimated Time :</th>-->
+<!--                                   <td> <t t-esc="o.estimated_time"/></td>-->
+<!--                               </tr>-->
+<!--                               <tr>-->
+<!--                                   <th>Description :</th>-->
+<!--                                   <td> <t t-esc="o.description"/></td>-->
+<!--                               </tr>-->
+<!--                           </table>-->
+
+
+                       </t>
+                   </t>
+            </t>
+
+
+        </template>
+
+</odoo>
