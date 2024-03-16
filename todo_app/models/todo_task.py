@@ -25,7 +25,7 @@ class TodoTask(models.Model):
     active = fields.Boolean(default=True)
     is_late = fields.Boolean(readonly=True)
 
-    @api.depends('line_ids')
+    @api.depends('line_ids','line_ids.times','estimated_time')
     def _compute_total(self):
         for rec in self:
             total = 0.0
@@ -33,7 +33,7 @@ class TodoTask(models.Model):
                 total += line.times
             rec.total_hours = total
             if rec.total_hours > rec.estimated_time:
-                raise ValidationError('total of hours more than estimated time !!')
+                raise ValidationError('Total of Timesheets hours more than Estimated time !!')
 
     def action_in_progress(self):
         for rec in self:
